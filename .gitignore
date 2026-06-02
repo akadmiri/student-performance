@@ -6,7 +6,9 @@ __pycache__/
 
 # Données 
 data/
+output/*
 
 # Configuration locale IDE
 .vscode/
 .idea/
+output/*
