@@ -1,12 +1,7 @@
-import matplotlib
+import matplotlib.pyplot as plt
 import pandas as pd
 import prince
 import seaborn as sns
-
-matplotlib.use(
-    "Qt5Agg"
-)  # Utiliser le backend Qt5 pour l'affichage des graphiques dans Linux
-import matplotlib.pyplot as plt
 
 path = "data/raw/student-mat.csv"
 df = pd.read_csv(path, sep=";")
