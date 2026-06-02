@@ -1,13 +1,13 @@
 # Student Performance Analysis
 ## Description
-Ce projet implémente un pipeline modulaire et industrialisé de bout en bout pour le traitement, la visualisation statistique et la modélisation prédictive des performances académiques des étudiants en mathématiques. Basé sur le jeu de données réel d'UC Irvine (UCI Student Performance Dataset), le projet applique les principes de la Clean Architecture pour transformer des données brutes hétérogènes en insights actionnables et en prédictions robustes.
+Ce projet implémente un pipeline modulaire pour le traitement, la visualisation et la modélisation prédictive des performances académiques des étudiants en mathématiques. Basé sur le jeu de données réel d'UC Irvine (UCI Student Performance Dataset), le projet applique les principes statistiques pour transformer des données brutes hétérogènes en insights actionnables et en prédictions robustes.
 
 L'objectif métier s'inscrit dans une démarche analytique : segmenter les profils d'apprentissage et prédire la réussite à l'examen final ($G3$) afin de permettre des interventions pédagogiques ciblées.
 
 ---
 
 ## Architecture du Projet
-Le projet est structuré de manière modulaire afin de séparer strictement les responsabilités (Data Processing, EDA, Modeling) :
+Le projet est structuré de manière modulaire afin de séparer strictement les taches (Data preprocessing, EDA, Modeling) :
 
 ```text
 student-performance/
