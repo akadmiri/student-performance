@@ -94,4 +94,4 @@ python3 src/analysis.py
 
 ## Stack Technique
 
-`Python 3.x` · `pandas` · `scikit-learn` · `matplotlib` · `seaborn` · `prince`
+`Python 3.11` · `pandas` · `scikit-learn` · `matplotlib` · `seaborn` · `prince`
