@@ -1,13 +1,13 @@
-# Environnement virtuel
+# Python environment and cache
 venv/
 .venv/
 __pycache__/
 *.pyc
 
-# Données 
+# Local data and generated figures
 data/
-output/*
+output/
 
-# Configuration locale IDE
+# Editor settings
 .vscode/
 .idea/

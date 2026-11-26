@@ -1,48 +1,48 @@
+from pathlib import Path
+
 import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
-path = "data/raw/student-mat.csv"
-df = pd.read_csv(path, sep=";")
-
-# Echantillon:
-print("Echantillon:")
-print(df.head())
+DATA_PATH = Path(__file__).resolve().parents[1] / "data" / "raw" / "student-mat.csv"
 
 
-# Variables cibles et explicatives:
-X = df.drop(columns=["G3"])
-Y = df["G3"]
+def load_data():
+    return pd.read_csv(DATA_PATH, sep=";")
 
-# Séparation des données en ensembles d'entraînement et de test:
-X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=6)
 
-print(f"Donnees d'entraînement: {X_train.shape}")
-print(f"Donnees de test: {X_test.shape}")
+def preprocess_data(df):
+    X = df.drop(columns=["G3"])
+    Y = df["G3"]
 
-# types de données:
-print("types de données:")
-print(df.dtypes)
+    X_train, X_test, Y_train, Y_test = train_test_split(
+        X, Y, test_size=0.2, random_state=6
+    )
 
-variables_num = X_train.select_dtypes(include=["int64"]).columns.tolist()
-variables_cat = X_train.select_dtypes(include=["str"]).columns.tolist()
-print(f"Nombre de variables numériques : {len(variables_num)}")
-print(f"Nombre de variables catégorielles : {len(variables_cat)}")
+    variables_num = X_train.select_dtypes(include="number").columns.tolist()
+    variables_cat = X_train.select_dtypes(include=["object", "string"]).columns.tolist()
 
-# Prétraitement des données:
-preprocessor = ColumnTransformer(
-    transformers=[
-        ("num", StandardScaler(), variables_num),
-        (
-            "cat",
-            OneHotEncoder(handle_unknown="ignore", sparse_output=False),
-            variables_cat,
-        ),
-    ]
-)
-X_train_preprocessed = preprocessor.fit_transform(X_train)
-X_test_preprocessed = preprocessor.transform(X_test)
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ("num", StandardScaler(), variables_num),
+            (
+                "cat",
+                OneHotEncoder(handle_unknown="ignore", sparse_output=False),
+                variables_cat,
+            ),
+        ]
+    )
 
-print(f"Forme des données d'entraînement prétraitées: {X_train_preprocessed.shape}")
-print(f"Forme des données de test prétraitées: {X_test_preprocessed.shape}")
+    # Fit the scaler and encoder on the training rows only.
+    X_train_preprocessed = preprocessor.fit_transform(X_train)
+    X_test_preprocessed = preprocessor.transform(X_test)
+
+    print(f"Training set after preprocessing: {X_train_preprocessed.shape}")
+    print(f"Test set after preprocessing: {X_test_preprocessed.shape}")
+
+    return X_train_preprocessed, X_test_preprocessed, Y_train, Y_test
+
+
+if __name__ == "__main__":
+    preprocess_data(load_data())

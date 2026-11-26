@@ -4,10 +4,16 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 
-from preprocessing import X_test_preprocessed, X_train_preprocessed, Y_test, Y_train
+from preprocessing import load_data, preprocess_data
+from visualization import plot_results
 
 
-def train_and_evaluate() -> Dict[str, float]:
+def train_and_evaluate(df=None) -> Dict[str, float]:
+    if df is None:
+        df = load_data()
+
+    X_train_preprocessed, X_test_preprocessed, Y_train, Y_test = preprocess_data(df)
+
     model = LinearRegression()
     model.fit(X_train_preprocessed, Y_train)
     y_pred = model.predict(X_test_preprocessed)
@@ -15,13 +21,13 @@ def train_and_evaluate() -> Dict[str, float]:
     rmse = float(np.sqrt(mse))
     r2 = float(r2_score(Y_test, y_pred))
 
-    print(
-        f"RMSE: {rmse:.4f} points de note (écart moyen entre les notes prédites et réelles)"
-    )
-    print(f"R²: {r2:.4f} (pourcentage de variance expliquée par le modèle)")
+    print(f"Test RMSE: {rmse:.4f} grade points")
+    print(f"Test R²: {r2:.4f}")
 
     return {"RMSE": rmse, "R2": r2}
 
 
 if __name__ == "__main__":
-    metrics = train_and_evaluate()
+    df = load_data()
+    train_and_evaluate(df)
+    plot_results(df)
